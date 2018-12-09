@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title> Guess Game</title>
+    </head>
+    <body>
+        <script>
+            var name = prompt("Enter Your Name")
+            alert('Welcome to the Guess Game ' + name.toUpperCase())
+
+            var targetNumber = Math.ceil(Math.random()*100)
+            var playerGuess = 0
+            var maxGuess = 10
+            var upperBound = 100;
+            var lowerBound = 0;
+            //console.log('target number - ' + targetNumber)
+
+            for(var i = 0; i<maxGuess; i++){
+                var guessNumber = prompt('Guess my number')
+                if(guessNumber < targetNumber){
+                    alert('Oops. Your guess was LOW.\nYou have ' + (maxGuess - (i+1)) + ' guesses left\n');
+                    alert('Guess the number between ' + guessNumber + ' to '+ upperBound)
+                    lowerBound = guessNumber;
+                } else if (guessNumber > targetNumber) {
+                    alert('Oops. Your guess was HIGH.\nYou have ' + (maxGuess - (i+1)) + ' guesses left\n');
+                    alert('Guess the number between '+ lowerBound + ' to ' + guessNumber)
+                    upperBound = guessNumber;
+                } else if (guessNumber == targetNumber){
+                    alert('Good job, ' + name.toUpperCase() + '!\nYou guessed my number in ' + (i+1) + ' guesses')
+                    break
+                }
+            }
+        </script>
+    </body>
+</html>
