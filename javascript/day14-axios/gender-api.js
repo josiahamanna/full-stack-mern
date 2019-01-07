@@ -4,7 +4,9 @@ const axios = require('axios')
 
 let name = process.argv[2]
 
-url = `https://gender-api.com/get?name=${name}&key=pRPLCejozFwCHFbVCR`
+console.log(process.env.API_KEY)
+
+url = `https://gender-api.com/get?name=${name}&key=${process.env.API_KEY}`
 
 //console.log(url)
 
