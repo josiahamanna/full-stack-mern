@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            item lising with conditions
+        </title>
+    </head>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+    <body>
+
+        <div id = "filters" style = "float: left">
+            <label><B><u> Categories </u></B></label><br/>
+            <span id = "categories"></span><br/>
+            <label><B><u> Cash on delivery </u></B></label>
+            <input type="checkbox" id = "cod"/><br/>
+            <label><B><u> Price Range </u></B></label>
+            <input type="number" id = "minPrice" name = "minPrice"/> - <input type="number" id = "maxPrice" name = "maxPrice"/><br/>
+            <button id = "btn"> Filter </button>
+        </div>
+        <div id = "data" style = "float: left"></div>
+               
+        <script>
+
+            const catList = document.getElementById('categories')
+            const codCheck = document.getElementById('cod')
+            const min = document.getElementById('minPrice')
+            const max = document.getElementById('maxPrice')
+            const headContentRow = ['name', 'price', 'category', 'cod', 'stock']
+            let catCondition = []
+            
+            axios.get('http://dct-api-data.herokuapp.com/products.json').then(function(response){
+
+                productList = response.data
+
+                
+                // removing the duplicate categories
+                catListArray = []
+                productList.forEach(function(item){
+                    if(!catListArray.includes(item.category)){
+                        if(item.category){
+                            catListArray.push(item.category)
+                        }
+                    }
+                })
+                
+                // listing the categories
+                catListArray.forEach(function(item){
+                    const catCheck = document.createElement('input')
+                    catCheck.type = 'checkbox'
+                    catCheck.id = item
+
+                    catCheck.addEventListener('click', function(){
+                        if(this.checked){
+                            catCondition.push(this.id)
+                        } else {
+                            catCondition.splice(catCondition.indexOf(this.id),1)
+                        }
+                    })
+
+                    catList.appendChild(catCheck)
+                    const labelTag = document.createElement('label')
+                    labelTag.innerHTML = item
+                    catList.appendChild(labelTag)
+                    const brTag = document.createElement('br')
+                    catList.appendChild(brTag)
+                })
+                
+                createData()
+
+            })
+
+            // on clicking filter button 
+            const btnHandler = document.getElementById('btn')
+            btnHandler.addEventListener('click', function(){
+                axios.get('http://dct-api-data.herokuapp.com/products.json').then(function(response){
+                    productList = response.data
+                    createData()
+                })
+            })
+
+            function createTableData(product, tableTag){
+                const dataRowTag = document.createElement('tr')
+                                    
+                headContentRow.forEach(function(key){
+                    const dataContent = document.createElement('td')
+                    dataContent.innerHTML = product[key]
+                    dataRowTag.appendChild(dataContent)
+                })
+
+                tableTag.appendChild(dataRowTag)
+            }
+
+
+
+            function createData() {
+                // displaying the data
+                document.getElementById('data').innerHTML = ''
+                const tableTag = document.createElement('table') 
+                tableTag.border = 'solid'
+                const headRowTag = document.createElement('tr')
+                
+                headContentRow.forEach(function(content){
+                    const headContent = document.createElement('th')
+                    headContent.innerHTML = content
+                    headRowTag.appendChild(headContent)
+                })
+                tableTag.appendChild(headRowTag)
+
+                if(min.value.length>0){
+                    if(catCondition.length<1){
+                        if(codCheck.checked){
+                            productList.forEach(function(product){
+                                if(product.cod && (product.price <= parseInt(max.value) && product.price >= parseInt(min.value))){
+                                    createTableData(product, tableTag)
+                                }
+                            })
+                        } else {
+                            productList.forEach(function(product){
+                                if(product.price <= parseInt(max.value) && product.price >= parseInt(min.value)){
+                                    createTableData(product, tableTag)
+                                }
+                            })
+                        }
+                    } else {
+
+                        if(codCheck.checked){
+                            productList.forEach(function(product){
+                                if(product.price <= parseInt(max.value) && product.price >= parseInt(min.value)){                        
+                                    if(catCondition.includes(product.category) && product.cod){
+                                        createTableData(product, tableTag)
+                                    }
+                                }
+                            })
+                        } else {
+                            productList.forEach(function(product){
+                                if (product.price <= parseInt(max.value) && product.price >= parseInt(min.value)){                        
+                                    if(catCondition.includes(product.category)){
+                                        createTableData(product, tableTag)
+                                    }
+                                }
+                            })
+                        }
+                    }
+                } else {
+                    if(catCondition.length<1){
+                        if(codCheck.checked){
+                            productList.forEach(function(product){
+                                if(product.cod){
+                                    createTableData(product, tableTag)
+                                }
+                            })
+                        } else {
+                            productList.forEach(function(product){
+                                createTableData(product, tableTag)
+                            })
+                        }
+                    } else {
+
+                        if(codCheck.checked){
+                            productList.forEach(function(product){                        
+                                if(catCondition.includes(product.category) && product.cod){
+                                    createTableData(product, tableTag)
+                                }                        
+                            })
+                        } else {
+                            productList.forEach(function(product){                        
+                                if(catCondition.includes(product.category)){
+                                    createTableData(product, tableTag)
+                                }                        
+                            })
+                        }
+                    }
+                }
+
+                document.getElementById('data').appendChild(tableTag)
+            }
+
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            check box remove page
+        </title>
+    </head>
+    
+    <body>
+               
+        <script>
+            const menuItems = [
+                {id: 1, title: 'dosa', isVeg: true},
+                {id: 2, title: 'cofee', isVeg: true},
+                {id: 3, title: 'butter chicken', isVeg: false}, 
+                {id: 4, title: 'chicken biryani', isVeg: false},
+                {id: 5, title: 'panner biryani', isVeg:true}
+            ]
+            
+            const ulTag = document.createElement('ul')
+
+            menuItems.forEach(function(item) {
+                const divTag = document.createElement('div')
+
+                const inputTag = document.createElement('input')
+                inputTag.type = 'checkbox'
+                inputTag.name = 'myCheckBox'
+
+                const liTag = document.createElement('li')
+                liTag.style = 'display: inline'
+                liTag.textContent = item.title
+
+                divTag.appendChild(inputTag)
+                divTag.appendChild(liTag)
+                ulTag.appendChild(divTag)
+            })
+
+            const inputTagTop = document.createElement('input')
+            inputTagTop.type = 'checkbox'
+            inputTagTop.onclick = checkToggle
+            inputTagTop.id = 'check_id'
+
+            document.body.appendChild(inputTagTop)
+            document.body.appendChild(ulTag)
+
+            const btnTag = document.createElement('button')
+            btnTag.onclick = removeFunction
+            btnTag.textContent = 'Remove'
+            document.body.appendChild(btnTag)
+
+            function removeFunction() {
+                let checkBoxes = document.getElementsByName('myCheckBox')
+                let checkBoxesToBeRemoved = []
+
+                for(let i = 0; i < checkBoxes.length; i++) {
+                    if(checkBoxes[i].checked == true) {
+                        checkBoxesToBeRemoved.push(checkBoxes[i])
+                    }
+                }
+
+                for(let i = 0; i < checkBoxesToBeRemoved.length; i++){
+                    checkBoxesToBeRemoved[i].parentElement.remove()
+                }
+            }
+
+            function checkToggle() {
+                const checkTrueFalse = document.getElementById('check_id')
+
+                if(checkTrueFalse.checked == true){
+                    let checkBoxes = document.getElementsByName('myCheckBox')
+                    for(let i = 0; i < checkBoxes.length; i++){
+                        checkBoxes[i].checked = true
+                    }
+                } else {
+                    let checkBoxes = document.getElementsByName('myCheckBox')
+                    for(let i = 0; i < checkBoxes.length; i++){
+                        checkBoxes[i].checked = false
+                    }
+                }
+            }
+
+        </script>
+
+    </body>
+</html>

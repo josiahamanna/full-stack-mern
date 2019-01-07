@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            simple calculator
+        </title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+
+        <div style = "text-align: center" class = "container">
+
+            <h2 id = "finalValue">0</h2>
+            
+            <button value = "=" onclick = "evaluateExpression()" class = "btn">=</button>
+            <button value = "C" onclick = "evaluateExpression(this.value)">Clear</button>
+            <button value = "+" onclick = "generateExpression(this.value)">+</button>
+        
+            <div id='btnNumbers'>
+                <button value = "1" onclick = "generateExpression(this.value)">1</button>
+                <button value = "2" onclick = "generateExpression(this.value)">2</button>
+                <button value = "3" onclick = "generateExpression(this.value)">3</button>
+                <button value = "-" onclick = "generateExpression(this.value)">-</button><br>
+                <button value = "4" onclick = "generateExpression(this.value)">4</button>
+                <button value = "5" onclick = "generateExpression(this.value)">5</button>
+                <button value = "6" onclick = "generateExpression(this.value)">6</button>
+                <button value = "*" onclick = "generateExpression(this.value)">*</button><br>
+                <button value = "7" onclick = "generateExpression(this.value)">7</button>
+                <button value = "8" onclick = "generateExpression(this.value)">8</button>
+                <button value = "9" onclick = "generateExpression(this.value)">9</button>
+                <button value = "/" onclick = "generateExpression(this.value)">/</button><br>
+                <button value = "0" onclick = "generateExpression(this.value)">0</button>
+            </div>
+
+        </div>
+        
+        <script>
+
+            const finalVal = document.getElementById('finalValue')
+
+            let expression = ''
+            let evaluatedContent = ''
+
+            function generateExpression(value){
+                expression += value
+                finalVal.innerHTML = expression
+            }
+
+            function evaluateExpression(val){
+
+                if(!val && expression){
+                    evaluatedContent = eval(expression)
+                } else{
+                    expression = ''
+                    evaluatedContent = '0'
+                }
+
+                finalVal.innerHTML=evaluatedContent
+            }  
+
+        </script>
+
+    </body>
+</html>

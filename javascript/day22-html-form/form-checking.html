@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            form validation
+        </title>
+    </head>
+    
+    <body>
+        
+        <form>
+            <label for = "name"> Name </label>
+            <input type = "text" id = "name" name="name"/><br/>
+            <span id="nameError"></span><br/>
+            <label for = "email"> Email </label>
+            <input type = "text" id = "email" name="email"><br/>
+            <span id= "emailError"></span><br/>
+            <label for = "pass"> Password </label>
+            <input type = "text" id = "pass" name="pass"><br/>
+            <span id= "passError"></span><br/>
+            <input type = "submit" id = "submit"><br/>
+        </form>
+
+        <span id = "validme"></span>
+        
+        <script>
+
+            let validateObj = {
+                name:false,
+                email:false,
+                password:false
+            }
+
+            const validate = document.getElementById('submit')
+
+            validate.addEventListener('click', function(event){
+                event.preventDefault()
+                validate.obj = false
+                validate.email = false
+                validate.password = false
+                let valid = true
+
+                const name = document.getElementById('name')
+                const email = document.getElementById('email')
+                const pass = document.getElementById('pass')
+
+                const nameError = document.getElementById('nameError')
+                nameError.innerHTML = ''
+
+                const validme = document.getElementById('validme')
+                validme.innerHTML = ''
+
+                const emailError = document.getElementById('emailError')
+                emailError.innerHTML = ''
+                
+                const passError = document.getElementById('passError')
+                passError.innerHTML = ''
+
+                if(name.value.length > 1){
+                    validateObj.name = true
+                } else{
+                    nameError.innerHTML = 'Name field is Mandatory'
+                    nameError.style = 'color: red'
+                }
+
+                if(email.value.includes('@') == true){
+                    validateObj.email = true
+                } else {
+                    emailError.innerHTML = 'Enter valid email'
+                    emailError.style = 'color: red'
+                }
+
+                if(pass.value.length > 7){
+                    validateObj.password = true
+                } else {
+                    passError.innerHTML = 'Password should at least contin 8 characters'
+                    passError.style = 'color: red'
+                }
+
+                Object.values(validateObj).forEach(function(status){
+                    if(status == false){
+                        valid = false
+                    }
+                })
+
+                if(valid){
+                    validme.innerHTML = 'VALID'
+                    validme.style = 'color: blue'
+                }
+            })
+        </script>
+
+    </body>
+</html>

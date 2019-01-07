@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Auto Save with copies
+        </title>
+    </head>
+    <body>
+        <div style="float:left">
+            <h1> Start your novel </h1>
+
+            <textarea rows = "10" cols = "30" id = "area" onkeyup="myFunction()"></textarea>
+
+            <p id = "lastUpdate"></p>
+        </div>
+        <div style="float: left" id = "showCopy">
+            
+        </div>
+       
+        <script>
+
+            const areaHandle = document.getElementById('area')
+            const lastUpdateHandle = document.getElementById('lastUpdate')
+            const divTag = document.getElementById('showCopy')
+
+            let myArray = []
+
+            if(localStorage.getItem(JSON.stringify(myArray).length)){
+                let toCheck = JSON.parse(localStorage.getItem('temp'))
+                areaHandle.textContent = toCheck[toCheck.length - 1]
+            }
+            
+            function myFunction() {
+                setInterval(function(){
+
+                    if(toCheck[toCheck.length - 1] != areaHandle.value){
+                        myArray.push({story:areaHandle.value})
+
+                        localStorage.setItem('temp', JSON.stringify(myArray))
+                        let date = new Date
+                        lastUpdateHandle.innerHTML = 'Last update ' + date
+                        setLastUpdateCopy(areaHandle, date)
+                    }
+
+                }, 3000)
+            }
+                
+            // function setLastUpdateCopy(element, date, areaHandle){
+
+            //     const textArea = document.createElement('h3')
+            //     const para = document.createElement('p')
+            //     let text = element.value
+
+            //     textArea.onclick = function() {areaHandle.value = text}
+                
+            //     para.innerText = date
+
+            //     textArea.innerText = text
+            //     textArea.style.border = '2px solid black'
+
+            //     divTag.appendChild(textArea)
+            //     divTag.appendChild(para)
+
+            // }
+
+        </script>
+    </body>
+</html>

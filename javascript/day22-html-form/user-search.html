@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            fake user search
+        </title>
+    </head>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+    <body>
+
+        <form>
+            <label for = "search"> Search </label>
+            <input id = "search" name = "search"/><br/>
+        </form>
+
+        <div id = "content"></div>
+               
+        <script>
+
+            const tableHead = ['Name', 'Email', 'Phone']
+
+            const tableTag = document.createElement('table')
+            tableTag.border = 'solid'
+            const headRowTag = document.createElement('tr')
+  
+
+            tableHead.forEach(function(colomn){
+                const rowDataTag = document.createElement('th')
+                rowDataTag.textContent = colomn
+                headRowTag.appendChild(rowDataTag)
+                tableTag.appendChild(headRowTag)
+            })
+
+
+            axios.get('http://jsonplaceholder.typicode.com/users').then(function(response){
+                const nameList = response.data
+                nameList.forEach(function(person){
+                    let colomns = []
+                    colomns.push(person.name, person.email, person.phone)
+                    const dataRowTag = document.createElement('tr')
+                    colomns.forEach(function(colomn){
+                        const tableDataTag = document.createElement('td')
+                        tableDataTag.name = 'tableData'
+                        tableDataTag.textContent = colomn
+                        dataRowTag.appendChild(tableDataTag)
+                    })
+                    tableTag.appendChild(dataRowTag)
+                })                        
+            })
+
+            document.getElementById('content').appendChild(tableTag)
+            
+            const search = document.getElementById('search')
+
+            search.addEventListener('keyup', function(){
+                document.getElementById('content').innerHTML = ''
+                const searchKey = document.getElementById('search').value
+                console.log(searchKey)
+                
+                
+                const tableHead = ['Name', 'Email', 'Phone']
+
+                const tableTag = document.createElement('table')
+                tableTag.border = 'solid'
+                const headRowTag = document.createElement('tr')
+  
+
+                tableHead.forEach(function(colomn){
+                    const rowDataTag = document.createElement('th')
+                    rowDataTag.textContent = colomn
+                    headRowTag.appendChild(rowDataTag)
+                    tableTag.appendChild(headRowTag)
+                })
+
+                axios.get('http://jsonplaceholder.typicode.com/users').then(function(response){
+                    const nameList = response.data
+                    let filterList = []
+                    nameList.forEach(function(person){
+                        if(person.name.toLowerCase().includes(searchKey) || person.email.toLowerCase().includes(searchKey) || person.phone.toLowerCase().includes(searchKey))
+                        filterList.push(person)
+                    })
+                    filterList.forEach(function(person){
+                        let colomns = []
+                        colomns.push(person.name, person.email, person.phone)
+                        const dataRowTag = document.createElement('tr')
+                        colomns.forEach(function(colomn){
+                            const tableDataTag = document.createElement('td')
+                            tableDataTag.name = 'tableData'
+                            tableDataTag.textContent = colomn
+                            dataRowTag.appendChild(tableDataTag)
+                        })
+                        tableTag.appendChild(dataRowTag)
+                    })                        
+                })
+
+                document.getElementById('content').appendChild(tableTag)
+            })
+            
+        </script>
+
+    </body>
+</html>

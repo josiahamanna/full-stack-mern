@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            template html file
+        </title>
+    </head>
+    
+    <body>
+
+        <h2> Word Count </h2>
+
+        <form id = "textField">
+            <textarea id = "text" name = "message"></textarea> <br/>
+            <input type="submit" id = "submitClick" value="Count"/>
+        </form>
+
+        <p id="status"></p>
+               
+        <script>
+            const counter = document.getElementById('text')
+            const actor = document.getElementById('submitClick')
+            const statusUpdate = document.getElementById('status')
+
+            actor.addEventListener('click', function(event) {
+                console.log(event)
+                event.preventDefault()
+                statusUpdate.innerHTML = `You have typed ${counter.value.length == '0' ? 0 : counter.value.split(' ').length} and ${counter.value.length}`
+            })
+            
+            
+
+        </script>
+
+    </body>
+</html>

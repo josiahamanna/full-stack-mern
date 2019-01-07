@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            template html file
+        </title>
+    </head>
+    
+    <body>
+
+        <h2> Word Count </h2>
+        
+        <form id = "textField">
+            <textarea id = "text" name = "message"></textarea>
+        </form>
+
+        <p id = "status"> You have typed 0 words and 0 characters </p> 
+        
+        <script>
+            let eventHandle = document.getElementById('text')
+            let statusUpdate = document.getElementById('status')
+
+            eventHandle.addEventListener('keyup', function(){
+                statusUpdate.innerHTML = `you have typed ${eventHandle.value.length == '0'? 0 : eventHandle.value.split(' ').length} words and ${eventHandle.value.length} characters`
+            })
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Dynamic select
+        </title>
+    </head>
+    
+    <body>
+        
+        <div id = "cat1"></div>
+        <div id = "cat2"></div>
+
+        <script>
+
+            const category = [
+                {id:1, type: 'electronic'}, 
+                {id:2, type:'cloth'}
+            ]
+
+            const subcat = [
+                {sid:1, item:'laptop', cid:1},
+                {sid:2, item:'phone', cid:1},
+                {sid:2, item:'pant', cid:2},
+                {sid:2, item:'shirt', cid:2}
+            ]
+
+            const categorySelect = document.createElement('select')
+            categorySelect.id = 'cat'
+
+            const subCatSelect = document.createElement('select')
+            // subCatSelect.name = 'subcat'
+
+            const optionTag = document.createElement('option')
+            optionTag.textContent = 'select'
+            optionTag.value = 'select'
+            categorySelect.appendChild(optionTag)
+
+            // console.log(categorySelect.value)
+
+
+            category.forEach(cat => {
+                const optionTag = document.createElement('option')
+                optionTag.textContent = cat.type
+                optionTag.value = cat.id
+                categorySelect.appendChild(optionTag)
+            })
+            
+            categoryText = document.createElement('p')
+            categoryText.innerText = 'Category'
+            document.getElementById('cat1').appendChild(categoryText)
+            document.getElementById('cat1').appendChild(categorySelect)
+
+            const suboptionTag = document.createElement('option')
+            suboptionTag.textContent = 'select'
+            subCatSelect.appendChild(suboptionTag)
+            
+            categorySelect.addEventListener('change', function(){
+                subCatSelect.innerHTML = ''
+                if(categorySelect.value == 'select') {
+                    const suboptionTag = document.createElement('option')
+                    suboptionTag.textContent = 'select'
+                    subCatSelect.appendChild(suboptionTag)
+                } else {
+                    subcat.forEach(sub => {
+                    const optionTag = document.createElement('option')
+                        if(sub.cid == document.getElementById('cat').value){
+                            optionTag.textContent = sub.item
+                            subCatSelect.appendChild(optionTag)
+                        }
+                    })
+                }
+                
+            })
+
+            subCategoryText = document.createElement('p')
+            subCategoryText.innerText = 'Sub Category'
+            document.getElementById('cat1').appendChild(subCategoryText)
+            document.getElementById('cat2').appendChild(subCatSelect)
+            
+        </script>
+
+    </body>
+</html>

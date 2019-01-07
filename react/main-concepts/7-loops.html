@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>javascript XML</title>
+</head>
+<body>
+	<script src="js/react.js"></script>
+	<script src="js/reactdom.js"></script>
+	<script src="js/babel.js"></script>
+
+	<div id="root">
+		
+	</div>
+
+	<script type="text/babel">
+		const rootHandle = document.getElementById('root');
+        const fruits = ['apple', 'mango', 'banana']
+
+        const ele = (
+            <ul>
+                {fruits.map( function (fruit, index) {
+                    return <li key = {index}> {fruit} </li>
+                })}
+            </ul>
+        )
+
+
+		ReactDOM.render(ele, rootHandle)
+	</script>
+
+</body>
+</html>

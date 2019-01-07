@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            activity up down
+        </title>
+    </head>
+    <body>
+        <h2 id="header">0</h2>
+        <button id="upBtn">UP</button>
+        <button id="downBtn">DOWN</button>
+        
+        <script>
+            const btnHandlerUp = document.getElementById('upBtn')
+            const btnHandlerDown = document.getElementById('downBtn')
+            const headerUpdate = document.getElementById('header')
+            let count = 0
+            btnHandlerUp.addEventListener('click', function(){
+                count++
+                headerUpdate.textContent = count
+            })
+            btnHandlerDown.addEventListener('click', function(){
+                count--
+                headerUpdate.textContent = count
+            })
+        </script>
+
+    </body>
+</html>

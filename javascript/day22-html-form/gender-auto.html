@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            template html file
+        </title>
+    </head>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+    <body>
+
+        <form>
+            <label for = "name"> Name </label>
+            <input type = "text" id = "name" name = "name"/><br/>
+            <label> Gender </label>
+            <input type ="radio" name = "gender" id = "male" value="male"/><label for = "male"> Male </label>
+            <input type ="radio" name = "gender" id = "female" value = "female"/><label for = "female"> Female </label>
+        </form>
+               
+        <script>
+            const name = document.getElementById('name')
+            name.addEventListener('blur', function(){
+                let search = name.value
+                let url = `https://gender-api.com/get?name=${search}&key=ZYCWktleXYqhvYnzlr`
+                axios.get(url).then(function(response){
+                    if(response.data.gender == 'male'){
+                        const male = document.getElementById('male')
+                        male.checked = true
+                    } else {
+                        const female = document.getElementById('female')
+                        female.checked = true
+                    }
+                })
+            })
+
+        </script>
+
+    </body>
+</html>

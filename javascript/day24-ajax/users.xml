@@ -1,0 +1,16 @@
+ <users>
+    <user>
+        <id>1</id>
+        <name>ravi</name>
+        <address>bangalore</address>
+    </user>
+    <user>
+        <id>2</id>
+        <name>ramu</name>
+        <address><mysoor/address>
+    </user>
+    <user>
+        <id>3</id>
+        <name>supriya</name>
+    </user>
+ </users>

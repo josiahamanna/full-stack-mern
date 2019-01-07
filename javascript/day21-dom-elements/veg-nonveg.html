@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            veg non-veg menu list
+        </title>
+    </head>
+    
+    <body>
+               
+        <script>
+            const menuItems = [
+                {id: 1, title: 'dosa', isVeg: true},
+                {id: 2, title: 'cofee', isVeg: true},
+                {id: 3, title: 'butter chicken', isVeg: false}, 
+                {id: 4, title: 'chicken biryani', isVeg: false},
+                {id: 5, title: 'panner biryani', isVeg:true}
+            ]
+            
+            const h21 = document.createElement('h2')
+            h21.textContent = `veg items`
+            const h22 = document.createElement('h2')
+            h22.textContent = `non-veg items`
+
+            const ul1 = document.createElement('ul')
+            const ul2 = document.createElement('ul')
+
+
+            let count1 = 1, count2 = 1
+
+            menuItems.forEach(function(item){
+                if(item.isVeg){
+                    if(count1) {
+                        document.body.appendChild(h21)
+                        count1--
+                    }
+                    const li = document.createElement('li')
+                    li.textContent = item.title
+                    ul1.appendChild(li)
+                    document.body.appendChild(ul1)
+                }
+            })
+
+            menuItems.forEach(function(item){
+                if(!item.isVeg){
+                    if(count2) {
+                        document.body.appendChild(h22)
+                        count2--
+                    }
+                    const li = document.createElement('li')
+                    li.textContent = item.title
+                    ul2.appendChild(li)
+                    document.body.appendChild(ul2)
+                }
+            })
+
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Auto Save 
+        </title>
+    </head>
+    <body>
+
+        <h1> Start your novel </h1>
+
+        <textarea id = "area" onkeyup="storeLocal()"></textarea>
+       
+        <script>
+
+            const areaHandle = document.getElementById('area')
+
+            if(localStorage.getItem('temp')){
+                area.textContent = localStorage.getItem('temp')
+            }
+            
+            function storeLocal(){
+                localStorage.setItem('temp', areaHandle.value)
+            }
+
+        </script>
+    </body>
+</html>

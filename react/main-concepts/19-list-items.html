@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>javascript XML</title>
+</head>
+<body>
+	<script src="js/react.js"></script>
+	<script src="js/reactdom.js"></script>
+	<script src="js/babel.js"></script>
+
+	<div id="root">
+		
+	</div>
+
+	<script type="text/babel">
+		const rootHandle = document.getElementById('root');
+        
+        class Items extends React.Component {
+            constructor(){
+                super()
+                this.state = {
+                    items: [
+                        {id:1, name: 'marker', price: 20, quantity: 1},
+                        {id:2, name: 'marker', price: 30, quantity: 2},
+                        {id:3, name: 'white board', price: 150, quantity: 1}
+                    ]
+                }
+                this.handleRemove = this.handleRemove.bind(this)
+                this.subTotal = this.subTotal.bind(this)
+            }
+
+            handleRemove(id){
+                let confirmation = confirm('are you sure')
+                if(confirmation) {
+                    this.setState(prevState => {
+                        return {
+                            items: prevState.items.filter(item => item.id != id)
+                        }   
+                    })
+                }
+            }
+
+            subTotal(){
+                let sub = 0
+                    this.state.items.forEach(item => {
+                        sub += item.price * item.quantity
+                    })
+                return sub
+            }
+
+            render(){
+                return (
+                    <div>
+                        <h2> Listing Items - {this.state.items.length} </h2>
+                        
+                        <ul>{ this.state.items.length == 0 ? <li> Empty list </li> :                                 this.state.items.map(item => {
+                                    return <SingleItem key = {item.id} id = {item.id} name = {item.name} price = {item.price} quantity = {item.quantity} total = {item.price * item.quantity} handleRemove={this.handleRemove} />
+                                })
+                            }
+                        </ul>
+                        <h2>Subtoal is - {this.subTotal()}</h2>
+                    </div>
+                )
+            }
+        }
+
+        class SingleItem extends React.Component {
+            constructor(){
+                super()
+                this.handleclick = this.handleclick.bind(this)
+            }
+
+            handleclick(){
+                this.props.handleRemove(this.props.id)
+            }
+
+            render(){
+                return (
+                    <div>
+                        <li> {this.props.name} INR - {this.props.price} Q - {this.props.quantity} T - {this.props.total} <button onClick={this.handleclick}> remove </button></li>
+                    </div>
+                )
+            }
+        }
+        
+		ReactDOM.render(<Items name = "value" btn = "increase"/>,rootHandle);
+	</script>
+
+</body>
+</html>

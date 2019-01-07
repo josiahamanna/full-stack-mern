@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            template html file
+        </title>
+    </head>
+    
+    <body>
+
+        <h1>Mountains</h1>
+        <div id="mountains"></div>
+               
+        <script>
+            const MOUNTAINS = [
+                {name: 'Kilimanjaro', height: 5895, place: 'Tanzania'},
+                {name: 'Everest', height: 8848, place: 'Nepal'},
+                {name: 'Mount Fuji', height: 3776, place: 'Japan'},
+                {name: 'Mont Blanc', height: 4808, place: 'Italy/France'}
+            ]
+
+            const tableTag = document.createElement('table')
+            tableTag.border = 'solid'
+            tableTag.style.borderColor = 'red'
+            const tableRowTag = document.createElement('tr')
+
+            Object.keys(MOUNTAINS[0]).forEach(function(keys){
+                const tableHeadTag = document.createElement('th')
+                tableHeadTag.textContent = keys
+                tableHeadTag.style.color = 'blue'
+                tableRowTag.appendChild(tableHeadTag)
+            })
+
+            tableTag.appendChild(tableRowTag)
+
+            
+
+            MOUNTAINS.forEach(function(mountain) {
+                const tableRowTwoTag = document.createElement('tr')
+                for(let key in mountain) {                    
+                    const tableDataTag = document.createElement('td')
+                    tableDataTag.textContent = mountain[key]
+                    if(key == 'height'){
+                        tableDataTag.style.textAlign = 'right'
+                        tableDataTag.style.background = 'grey'
+                    }
+                    if(key == 'name'){
+                        tableDataTag.style.color = 'red'
+                    }
+                    if(key == 'place'){
+                        tableDataTag.style.color = 'magenta'
+                    }
+                    tableRowTwoTag.appendChild(tableDataTag)
+                    tableTag.appendChild(tableRowTwoTag)
+                }                
+            })
+            
+            document.getElementById('mountains').appendChild(tableTag)
+
+        </script>
+
+    </body>
+</html>

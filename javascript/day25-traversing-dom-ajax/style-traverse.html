@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Listing movie
+        </title>
+    </head>
+    
+    <body>
+        
+        <h1> Movie List </h1>
+        <h2> Kill Bill </h2>
+        <p> After awakening from a four-year coma, a former assassin wreaks vengeance on the team of assassins who betrayed her. </p>
+
+        <div>
+            <h3> Director</h3>
+            <ul> 
+                <li> Quentin Tarantino </li>
+            </ul>
+        </div>
+
+        <div>
+        <h3> Actors </h3>       
+            <ul id="actors"> 
+                <li> Uma Thurman</li>
+                <li> David Carradine</li>
+                <li> Daryl Hannah</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3> Actors </h3>
+            <ul>
+                <li> Action </li>
+                <li> Thriller </li>
+            </ul>
+        </div>
+
+
+        <script>
+
+            function setBorder(element){
+                element.style.border = '2px solid ' + '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+            }
+
+            const html = document.documentElement
+            html.children[1].style.border = '2px solid blue'
+            
+            const body = html.children[1]
+            body.firstElementChild.style.border = '2px solid pink'
+
+            body.firstElementChild.nextElementSibling.style.border = '2px solid red'
+
+            body.children[2].style.border = '2px solid brown'
+
+            const directorDiv = body.children[3]
+            directorDiv.firstElementChild.style.border = '2px solid yellow'
+
+            directorDiv.firstElementChild.nextElementSibling.style.border = '2px solid black'
+
+            const actorDiv = body.children[4]
+            actorDiv.firstElementChild.style.border = '2px solid red'
+            const listArray = actorDiv.firstElementChild.nextElementSibling.children
+            for(let i = 0; i < listArray.length; i++){
+                listArray[i].style.border = '2px solid blue'
+            }
+
+            const genreDiv = body.lastElementChild.previousElementSibling
+            setBorder(genreDiv.firstElementChild)
+            const genreListArray = genreDiv.lastElementChild.children
+            console.log(genreListArray)
+            for(let i = 0; i<genreListArray.length; i++){
+                setBorder(genreListArray[i])
+            }
+            
+            genreDiv.lastElementChild.children[genreDiv.lastElementChild.children.length -2].style.border = 'none'
+        </script>
+
+    </body>
+</html>

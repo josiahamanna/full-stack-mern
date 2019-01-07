@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            pagination
+        </title>
+    </head>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+    <body>
+
+        <select id = "select">
+            <option value="10"> 10 </option>
+            <option value="25"> 25 </option>
+            <option value="50"> 50 </option>
+            <option value="100"> 100 </option>
+        </select>
+            
+        <h2 id = "heading"> Listing <span id = "begin"> </span> to <span id = "end"> </span> out of <span id = "total"></span></h2>
+        <ol id = "content"></ol>
+
+        <button id = "nextBtn"> Next </button>
+
+        <script>
+
+            let initial = 0
+            let limit = 10
+            let initialVal = [10,25,50,100]
+
+            const mailList = document.getElementById('content')
+
+            const totalDisp = document.getElementById('total')
+            const beginDisp = document.getElementById('begin')
+            const endDisp = document.getElementById('end')
+
+            const selectRange = document.getElementById('select')
+            selectRange.addEventListener('change', function(){
+                initialVal = [10,25,50,100]
+                createContent(initial, selectRange.value)
+            })
+
+            const nextButton = document.getElementById('nextBtn')
+            nextButton.addEventListener('click', function(){
+                if(selectRange.value == 10){
+                    if(initialVal[0]<80) {
+                        createContent(initialVal[0], initialVal[0] + parseInt(selectRange.value))
+                        initialVal[0] += parseInt(selectRange.value)
+                    }
+                } else if (selectRange.value == 25) {
+                    if(initialVal[1]<80) {
+                        createContent(initialVal[1], initialVal[1] + parseInt(selectRange.value))
+                        initialVal[1] += parseInt(selectRange.value)
+                    }
+                } else if (selectRange.value == 50) {
+                    if(initialVal[2]<80) {
+                        createContent(initialVal[2], initialVal[2] + parseInt(selectRange.value))
+                        initialVal[2] += parseInt(selectRange.value)
+                    }
+                }
+            })
+            
+            createContent(initial, limit)
+
+
+
+            function createContent(initial,limit){
+            
+                axios.get('http://dct-api-data.herokuapp.com/products.json').then(function(response){
+                    mailList.innerHTML = ''
+
+                    console.log(initial)
+                    console.log(limit)
+
+                    productList = response.data
+                    
+                    total.innerHTML = productList.length
+                    
+                    if(initial < productList.length){
+                        beginDisp.innerHTML = parseInt(initial) + 1
+                        if(limit > productList.length){
+                            endDisp.innerHTML = productList.length
+                            for(let i = initial;i < productList.length; i++) {
+                                const liTag= document.createElement('li')
+                                liTag.textContent = productList[i].name
+                                mailList.appendChild(liTag)
+                            }
+                        } else {
+                            endDisp.innerHTML = parseInt(limit)
+                            for(let i = initial;i < limit; i++) {
+                                const liTag= document.createElement('li')
+                                liTag.textContent = productList[i].name
+                                mailList.appendChild(liTag)
+                            }
+                        }
+                    } 
+                    
+                })
+            }
+        </script>
+
+    </body>
+</html>

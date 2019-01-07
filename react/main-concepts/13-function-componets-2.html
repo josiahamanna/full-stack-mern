@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Fucntion component </title>
+</head>
+<body>
+	<script src="js/react.js"></script>
+	<script src="js/reactdom.js"></script>
+	<script src="js/babel.js"></script>
+
+	<div id="root">
+		
+	</div>
+
+	<script type="text/babel">
+		const rootHandle = document.getElementById('root');
+
+        // function components = presentation components 
+
+        function Restaurant (props) {
+            return (
+                <div>
+                    <h2> { props.name } </h2>
+                    <p> { props.type } </p>
+                    <p> { props.rating } </p>
+                    <hr />
+                </div>
+            )
+        }
+
+
+        function App(){
+            // make api call
+            const restaurants = [
+                { id:1, name: 'hari', type: 'fast food', rating: 4.2},
+                { id:2, name: 'cool joint', type: 'fast food', rating: 4.4}
+            ]
+            return (
+                <div>
+                    <h2> Swizzy </h2>
+                    {
+                        restaurants.map(function(resaurant){
+                            return <Restaurant key = {Restaurant.id} name = {Restaurant.name} type = {Restaurant.type} rating = {resaurant.rating}/>
+                        })
+                    }
+                </div>
+            )
+        }
+
+		ReactDOM.render(<App/>,rootHandle);
+	</script>
+
+</body>
+</html>

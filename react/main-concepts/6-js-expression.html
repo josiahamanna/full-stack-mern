@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>javascript XML</title>
+</head>
+<body>
+	<script src="js/react.js"></script>
+	<script src="js/reactdom.js"></script>
+	<script src="js/babel.js"></script>
+
+	<div id="root">
+		
+	</div>
+
+	<script type="text/babel">
+		const rootHandle = document.getElementById('root');
+        
+        const sourse = 'bangalore'
+        const destination = 'mysoor'
+        const distance = 150
+        const places = ['bangalore', 'kegeri', 'bidadi']
+
+        const tolls = {
+            nice: 65
+        }
+
+        const safeToRide = true
+
+        const ele = <p> the distance between {sourse} to {destination} is {distance} <br/> {places.join(' - ')}... {tolls.nice}... safe to ride: {safeToRide ? 'true' : 'false'}</p>
+
+		ReactDOM.render(ele,rootHandle);
+	</script>
+
+</body>
+</html>

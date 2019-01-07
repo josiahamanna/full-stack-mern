@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            copy auto save (object)
+        </title>
+    </head>
+    <body>
+
+        <script>
+
+            function CreateEditor(name, area, lastUpDate, copyDivTag, localStorageName) {
+
+                this.areaID = area
+                this.lastUpDateID = lastUpDate
+                this.copyDivTagID = copyDivTag
+                this.localStorageName = localStorageName
+                this.name = name
+                
+                this.main = function() {
+                    this.createDiv()
+                    this.operation()
+                }
+                
+                // called by main function for creating Area Div 
+                this.createDiv = function(){
+
+                    const mainDiv = document.createElement('div')
+                    mainDiv.style = "horizontal-align: middle"
+
+                    // editing area
+                    const areaDiv = document.createElement('div')
+                    areaDiv.style = 'float:left'
+                    this.createAreaDivContent(areaDiv)
+                    mainDiv.appendChild(areaDiv)
+
+                    // showing copy area
+                    const copyDiv = document.createElement('div')
+                    copyDiv.style = 'float:left; margin-left:20px'
+                    copyDiv.id = this.copyDivTagID
+                    mainDiv.appendChild(copyDiv)
+
+                    // final append to your main div
+                    document.body.appendChild(mainDiv)
+                }
+
+                // called by createAreaDiv for content inside area div
+                this.createAreaDivContent = function(areaDiv){
+
+                    // create head message
+                    const headMessage = document.createElement('h2')
+                    headMessage.innerHTML = this.name
+                    areaDiv.appendChild(headMessage)
+                    
+                    // create text area
+                    const textArea = document.createElement('textarea')
+                    textArea.rows = '10'
+                    textArea.cols = '50'
+                    textArea.onkeypress = function() {
+                        isClicked = true
+                    }
+                    textArea.id = this.areaID
+                    areaDiv.appendChild(textArea)
+
+                    // create para for last update time
+                    const para = document.createElement('p')
+                    para.id = this.lastUpDateID
+                    areaDiv.appendChild(para)
+                }
+
+                // design the operation
+                this.operation = function(){
+
+                    this.areaHandle = document.getElementById(this.areaID)
+                    this.lastUpdateHandle = document.getElementById(this.lastUpDateID)
+                    this.divTag = document.getElementById(this.copyDivTagID)
+                    let isClicked = true
+
+                    const myArray = []
+
+                    if(localStorage.getItem(this.localStorageName)){
+                        let toCheck = JSON.parse(localStorage.getItem(this.localStorageName))
+                        this.areaHandle.textContent = toCheck[toCheck.length - 1].story
+                    }
+
+
+                    setInterval(function(){
+
+                        let myCheck = JSON.parse(localStorage.getItem(this.localStorageName))
+                        let text = this.areaHandle.value
+                        if(myCheck == null){
+                            let myDate = new Date                    
+                            myArray.push({story: text, date:myDate})
+                            localStorage.setItem(this.localStorageName, JSON.stringify(myArray))
+                            this.lastUpdateHandle.innerHTML = 'Last update ' + myDate
+                            let sendDate = myArray[myArray.length-1].date
+                            //setLastUpdateCopy.bind(this)
+                            setLastUpdateCopy(text, sendDate, myArray[myArray.length-1].story, this)//.bind(this)
+                        } else {
+                            if(myCheck[myCheck.length-1].story != text && isClicked){
+                                let myDate = new Date
+                                myArray.push({story:text, date:myDate})
+                                localStorage.setItem('temp', JSON.stringify(myArray))
+                                let sendDate = myArray[myArray.length-1].date
+                                this.lastUpdateHandle.innerHTML = 'Last update ' + sendDate
+                                //setLastUpdateCopy.bind(this)
+                                setLastUpdateCopy(text, sendDate, myArray[myArray.length-1].story, this)//.bind(this)
+                            }
+                        }   
+
+                    }.bind(this),3000)
+
+                    function setLastUpdateCopy(text, date, story, that){
+                        const textArea = document.createElement('h4')
+                        const para = document.createElement('p')
+                        const line = document.createElement('p')
+                        line.style.border = '2px solid brown'
+                        para.innerText = date
+                        if(text.length > 0){
+                            textArea.innerText = text
+                            textArea.style.border = '1px solid black'
+                        } else {
+                            textArea.innerText = 'Cleared all'
+                        }
+                        
+
+                        textArea.onclick = function() {
+                            that.areaHandle.value = story
+                            isClicked = false
+                            that.lastUpdateHandle.innerHTML = 'Last update ' + date
+                        }
+
+                        that.divTag.appendChild(textArea)
+                        that.divTag.appendChild(para)
+                        that.divTag.appendChild(line)
+                    }
+
+                    
+                }
+                
+
+                this.main()
+            }
+
+            let editAreaOne = new CreateEditor('coding area', 'area', 'lastUpdate', 'showCopy', 'temp')
+            let editAreaTwo = new CreateEditor('story area', 'area', 'lastUpdate', 'showCopy', 'temp')
+
+
+        </script>
+    </body>
+</html>

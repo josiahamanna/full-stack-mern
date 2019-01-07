@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Form JSON
+        </title>
+    </head>
+    <body>
+       
+        <form>
+            <label> name <input id="name" type= "text" name="name" /></label><br/>
+            <label>message <textarea id="message" name="textarea"></textarea> </label><br/>
+            <label> deparment <select name="deparment" id="select">
+                <option value =""> ------- </option>
+                <option value="techical">tecnical</option>
+                <option value="sales"> Sales </option>
+                <option value="hr"> HR </option>
+            </select></label><br/>
+            <label>priority 
+                <label><input name = "pri" id = "high" type="radio" value = "high"/> High </label>
+                <label><input name = "pri" id = "medium" type="radio" value="medium"/> Medium </label>
+                <label><input name = "pri" id = "low" type="radio" value="low"/> Low </label>
+             </label><br/>
+             <input id = "submit" type="submit" value = "submit"/>
+        </form>
+
+        <script>
+            const submit = document.getElementById('submit')
+
+            submit.addEventListener('click', function(event){
+
+                event.preventDefault()
+
+                let formData = {}
+
+                const name = document.getElementById('name')
+                formData.name = name.value
+                
+
+                const message = document.getElementById('message')
+                formData.message = message.value
+                
+                const deparment = document.getElementById('select')
+                formData.department = deparment.value
+
+                const priority = document.getElementsByName('pri')
+
+                // console.log(priority[0].value)
+                for(let i = 0; i < priority.length; i++){
+                    if(priority[i].checked){
+                        formData.priority = priority[i].value
+                        break
+                    }
+                }
+
+                console.log(JSON.stringify(formData))
+
+            })
+        </script>
+    </body>
+</html>

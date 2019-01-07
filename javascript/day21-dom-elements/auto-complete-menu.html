@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            auto complete menu list
+        </title>
+    </head>
+    
+    <body>
+
+        <form><input type = "text" id = "search" onkeyup="callme()"> </form>
+               
+        <script>
+            const menuItems = [
+                {id: 1, title: 'dosa', isVeg: true},
+                {id: 2, title: 'coffee', isVeg: true},
+                {id: 3, title: 'butter chicken', isVeg: false}, 
+                {id: 4, title: 'chicken biryani', isVeg: false},
+                {id: 5, title: 'panner biryani', isVeg:true}
+            ]
+
+            const divTag = document.createElement('div')
+
+            let searchkey = ''
+            
+            function callme(){
+
+                divTag.innerHTML = ''
+
+                searchkey = document.getElementById('search').value
+                
+                const ulTag = document.createElement('ul')
+                
+                // let myArray = menuItems.filter(function(item){
+                //     return item.title.includes(searchkey) == true
+                // })
+
+                menuItems.forEach(function(item){
+                    if(item.title.includes(searchkey)){
+                        const liTag = document.createElement('li')
+                        liTag.textContent = item.title
+                        ulTag.appendChild(liTag)
+                    }
+                })
+
+                divTag.appendChild(ulTag)
+                document.body.appendChild(divTag)
+                
+            }
+
+        </script>
+
+    </body>
+</html>

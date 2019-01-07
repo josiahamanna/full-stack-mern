@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Auto Save 
+        </title>
+    </head>
+    <body>
+
+        <h1> Start your novel </h1>
+
+        <textarea id = "area" onkeyup="save()"></textarea>
+       
+        <script>
+
+            const areaHandle = document.getElementById('area')
+
+            if(localStorage.getItem('temp')){
+                area.textContent = localStorage.getItem('temp')
+            }
+            
+            function save(){
+                setInterval(function(){
+                    localStorage.setItem('temp', areaHandle.value)
+                }, 5000)
+            }
+
+        </script>
+    </body>
+</html>

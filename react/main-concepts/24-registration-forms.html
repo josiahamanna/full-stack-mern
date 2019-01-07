@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>javascript XML</title>
+</head>
+<body>
+	<script src="js/react.js"></script>
+	<script src="js/reactdom.js"></script>
+    <script src="js/babel.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+	<div id="root">
+		
+	</div>
+
+	<script type="text/babel">
+		const rootHandle = document.getElementById('root');
+        
+        class Registration extends React.Component {
+
+            constructor(){
+                super()
+                this.state = {
+                    username: '',
+                    email: '',
+                    pass: '',
+                    gender: ''
+                }
+                this.changeHandle = this.changeHandle.bind(this)
+                this.submitHandle = this.submitHandle.bind(this)
+                this.blurHandle = this.blurHandle.bind(this)
+                this.clickHandle = this.clickHandle.bind(this)
+            }
+            
+            changeHandle(event){
+                this.setState({
+                    [event.target.name] : event.target.value
+                })
+            }
+
+            submitHandle(event) {
+                event.preventDefault()
+                const userData = {
+                    username: this.state.username,
+                    email: this.state.email,
+                    password: this.state.pass,
+                    gender: this.state.gender,
+                    show: false
+                }
+                console.log(userData)
+            }
+
+            blurHandle() {
+                let url = `https://gender-api.com/get?name=${this.state.username}&key=ZYCWktleXYqhvYnzlr`
+                let maleFemale
+                axios.get(url).then((response)=>{
+                    maleFemale = response.data.gender
+                    if(maleFemale){
+                    this.setState({
+                        gender: maleFemale
+                    })
+                }
+                })
+            }
+
+            clickHandle(){
+                // let value = this.state.show
+                this.setState(preState => ({
+                    show: !preState.show
+                }))
+            }
+
+            render(){
+                return (
+                <div>
+                    <h2> Registration Form </h2>
+                    <form onSubmit={this.submitHandle}>
+                        <label>User Name <input type = "text" value = {this.state.username} onChange={this.changeHandle} onBlur={this.blurHandle}name = "username"/></label><br/>
+                        <label>Email ID <input type = "text" value = {this.state.email} onChange={this.changeHandle} name = "email"/></label><br/>
+                        <label>Password <input type = { this.state.show ? "text" : "password" } value = {this.state.pass} onChange={this.changeHandle} name = "pass"/></label><a href='#' onClick={this.clickHandle}> {this.state.show ? 'hide': 'show'} </a><br/>
+                        <input type = "radio" value = "male" name = "gender" onChange={this.changeHandle}checked = {this.state.gender=='male'?'checked':''}/> Male
+                        <input type = "radio" value = "female" name = "gender" onChange={this.changeHandle} checked = {this.state.gender=='female'?'checked':''}/> Female <br/>
+                        <input type="submit" value ="register"/>
+                    </form>
+                </div>
+                )
+            }
+        }
+        
+        ReactDOM.render(<Registration/>, rootHandle)
+	</script>
+
+</body>
+</html>

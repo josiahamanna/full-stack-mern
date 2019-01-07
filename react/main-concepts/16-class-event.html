@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>javascript XML</title>
+</head>
+<body>
+	<script src="js/react.js"></script>
+	<script src="js/reactdom.js"></script>
+	<script src="js/babel.js"></script>
+
+	<div id="root">
+		
+	</div>
+
+	<script type="text/babel">
+		const rootHandle = document.getElementById('root');
+        
+        class Greet extends React.Component {
+            constructor() {
+                super()
+                this.handleClickConstructor = this.handleClickConstructor.bind(this)
+            }
+        
+
+            // inside event handler, this is undefined 
+            handleClick() {
+                console.log(this)
+                console.log('you clicked me')
+            }
+
+            handleClickArrow = () => {
+                console.log(this)
+                console.log('you clicked arrow function')
+            }
+
+            handleClickConstructor() {
+                console.log(this)
+            }
+
+            render() {
+                return (
+                    <div>
+                        <button onClick = {this.handleClick.bind(this)} > click me (bind) </button>
+                        <button onClick = {this.handleClickArrow} > click me (arrow) </button>
+                        <button onClick = {this.handleClickConstructor} > Click me (constructor) </button>
+                        <button onClick = {function() {
+                            console.log(this)
+                        }}>click me (es5 inline function) </button>
+
+                        <button onClick = {() => {
+                        console.log(this) }}>click me (es6 inline arrow function) </button>
+                    </div>
+                )
+                }
+        }
+		ReactDOM.render(<Greet />,rootHandle);
+	</script>
+
+</body>
+</html>

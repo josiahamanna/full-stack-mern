@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            sub category handle
+        </title>
+    </head>
+    
+    <body>
+
+        <div id = "cat1"></div>
+        <div id = "cat2"></div>
+               
+        <script>
+
+            const category = [
+                {type:''},
+                {id:1, type: 'electronic'}, 
+                {id:2, type:'cloth'}
+            ]
+
+            const subcat = [
+                {sid:1, item:'laptop', cid:1},
+                {sid:2, item:'phone', cid:1},
+                {sid:2, item:'pant', cid:2},
+                {sid:2, item:'shirt', cid:2}
+            ]
+            
+            const categorySelect = document.createElement('select')
+            // categorySelect.name = 'catagory'
+            categorySelect.id = 'cat'
+
+            const subCatSelect = document.createElement('select')
+            subCatSelect.name = 'subcat'
+
+            category.forEach(function(cat){
+                const optionTag = document.createElement('option')
+             //   optionTag.value = cat.type
+                optionTag.textContent = cat.type
+                optionTag.value = cat.id
+                categorySelect.appendChild(optionTag)
+            })
+
+            document.getElementById('cat1').appendChild(categorySelect)
+            
+            categorySelect.addEventListener('change', function(){
+                subCatSelect.innerHTML = ''
+                subcat.forEach(function(sub) {
+                    const optionTag = document.createElement('option')
+                    console.log(document.getElementById('cat').value)
+                    if(sub.cid == document.getElementById('cat').value){
+                        optionTag.textContent = sub.item
+                        console.log(optionTag)
+                        subCatSelect.appendChild(optionTag)
+                    }
+                })
+            })
+
+            
+
+            document.getElementById('cat2').appendChild(subCatSelect)
+
+        </script>
+
+    </body>
+</html>

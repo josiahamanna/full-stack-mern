@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            template html file
+        </title>
+    </head>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+    <body>
+        <h2> listing <span id = "count"></span> out of <span id = "total"></span> </h2>
+        <div id = "mainList"></div>
+        <button id = "button"> Show More </button>
+               
+        <script>
+
+            const button = document.getElementById('button')
+            const initialUlTag = document.createElement('ol')
+            const count = document.getElementById('count')
+            const total = document.getElementById('total')
+            let offSet = 0
+            let limit = 10
+
+            axios.get('http://dct-api-data.herokuapp.com/products.json').then(function(response){
+                productList = response.data
+                total.innerHTML = productList.length
+                for(let i = 0;i < 10; i++) {
+                    const liTag= document.createElement('li')
+                    liTag.textContent = productList[i].name
+                    initialUlTag.appendChild(liTag)
+                }
+            })
+            
+            count.innerHTML = `${offSet + limit}`
+            document.getElementById('mainList').appendChild(initialUlTag)
+            
+            button.addEventListener('click', function(){
+                offSet = offSet + limit
+                axios.get('http://dct-api-data.herokuapp.com/products.json').then(function(response){
+                    productList = response.data
+
+                    // const ulTag = document.createElement('ul')
+                    for(let i = offSet;i < limit + offSet; i++) {
+                        
+                        const liTag= document.createElement('li')
+                        liTag.textContent = productList[i].name
+                        initialUlTag.appendChild(liTag)
+                        
+                    }
+                    count.innerHTML = `${offSet + limit}`
+                })
+            })
+            
+        </script>
+
+    </body>
+</html>

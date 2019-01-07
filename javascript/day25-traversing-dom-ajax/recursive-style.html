@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Listing movie
+        </title>
+    </head>
+    
+    <body>
+        
+        <h1> Movie List </h1>
+        <h2> Kill Bill </h2>
+        <p> After awakening from a four-year coma, a former assassin wreaks vengeance on the team of assassins who betrayed her. </p>
+
+        <div>
+            <h3> Director</h3>
+            <ul> 
+                <li> Quentin Tarantino </li>
+            </ul>
+        </div>
+
+        <div>
+        <h3> Actors </h3>       
+            <ul id="actors"> 
+                <li> Uma Thurman</li>
+                <li> David Carradine</li>
+                <li> Daryl Hannah</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3> Actors </h3>
+            <ul>
+                <li> Action </li>
+                <li> Thriller </li>
+            </ul>
+        </div>
+
+
+        <script>
+
+            const body = document.documentElement.lastElementChild
+
+            // callRec(body)
+            jehu(body)
+
+            function setBorder(element){
+                element.style.border = '2px solid ' + '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+            }
+
+            function jehu(element) {
+
+                if(element.localName == 'li') {
+                    element.style = 'color: red'
+                    setBorder(element)
+                }
+                // setBorder(element)
+
+                if(element.firstElementChild){
+                    jehu(element.firstElementChild)
+                }
+                
+                if(element.nextElementSibling){
+                    jehu(element.nextElementSibling)
+                }
+                
+                // let nextSibling = element.nextElementSibling
+                // if(nextSibling){
+                //     jehu(nextSibling)
+                // }
+            }
+            
+            // function callRec(element){
+            //     setBorder(element)
+
+            //     if(element.childElementCount == 0){
+            //         return
+            //     }
+                
+            //     callRec(element.firstElementChild)
+            //     let childElement = element.firstElementChild.nextElementSibling
+            //     while(childElement){
+            //         callRec(childElement)
+            //         childElement = childElement.nextElementSibling
+            //     }
+            // }
+            
+            </script>
+
+    </body>
+</html>

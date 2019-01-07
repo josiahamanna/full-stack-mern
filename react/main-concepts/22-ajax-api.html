@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> javascript XML </title>
+</head>
+<body>
+	<script src="js/react.js"></script>
+	<script src="js/reactdom.js"></script>
+    <script src="js/babel.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+	<div id="root">
+		
+	</div>
+
+	<script type="text/babel">
+		const rootHandle = document.getElementById('root');
+        
+        class Users extends React.Component {
+            constructor(){
+                super()
+                this.state = {
+                    users: [],
+                    filter: [],
+                    loading: true
+                }
+                this.changeHandle = this.changeHandle.bind(this)
+            }
+
+            componentDidMount(){
+                setTimeout(() => {
+                    axios.get('http://jsonplaceholder.typicode.com/users').then(response =>{
+                    this.setState({
+                        users: response.data,
+                        filter: response.data,
+                        loading: false
+                    })
+                })
+                },0);
+               
+            }
+
+            changeHandle(event){
+                event.persist()
+                this.setState(prevState => (
+                    {
+                        filter: prevState.users.filter(user => user.name.toLowerCase().includes(event.target.value.toLowerCase()))
+                    }
+                ))
+            }
+
+            render() {
+                return (
+                    <div>
+                        {
+                            this.state.loading
+                            ? <h2><img src = "file:///home/josiah/Desktop/dct/mern-nov/react/main-concepts/images/spinner.gif" alt = "spinner" height = "100"/></h2>                        
+                            : <div>
+                                <input type = "text" placeholder = "search" onChange={this.changeHandle}/>
+                                <h2> Listing Users - { this.state.filter.length } </h2>
+                                <ul>
+                                    {this.state.filter.map(user =>{
+                                        return <li key={user.id}> {user.name} </li>
+                                    })}
+                                </ul>
+                              </div>
+                        }
+                    </div>
+                )
+            }
+        }
+
+		ReactDOM.render(<Users/>,rootHandle);
+	</script>
+
+</body>
+</html>

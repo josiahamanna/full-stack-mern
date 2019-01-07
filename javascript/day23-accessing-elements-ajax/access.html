@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Accessing elements
+        </title>
+    </head>
+    
+    <body>
+
+        <h2 id = "heading"> Welcome to our website </h2>
+        <p> we offer interior design serives </p>
+        <h2> serives offered </h2>
+        <ul>
+            <li> Interior </li>
+            <li> Construction </li>
+            <li> Architecture </li>
+        </ul>
+        <p class = "contact"> Get in touch </p>
+        <p class = "contact"> Address: Jayanagar </p>
+               
+        <script> 
+            const headingHandle = document.getElementById('heading')
+            console.log(headingHandle)
+            // const headingHandleError = document.getElementById('header') // null
+
+            const contactElements = document.getElementsByClassName('contact')
+            console.log(contactElements)
+            console.log(contactElements[0].textContent)
+
+            //contact Elements.forEach(function(ele){
+                //console.log(ele.textcontent)
+            // })
+
+            // use for loop for accessing elements 
+            for(let i = 0; i < contactElements.length; i++){
+                console.log(contactElements[i].textContent)
+            }
+
+            // Array.from // converts into a primitive array
+
+            const liElements = document.getElementsByTagName('li')
+            console.log(liElements)
+
+            // querySelctor()
+            // id = #
+
+            const heading1 = document.querySelector('#heading')
+            console.log(heading1)
+
+            // class = .
+            const contact1 = document.querySelector('.contact')
+            console.log(contact1)
+
+            const contact2 = document.querySelectorAll('.contact')
+            console.log(contact2)
+
+            const li1 = document.querySelectorAll('li')
+            console.log(li1)
+
+            contact2.forEach(function(item){
+                console.log(item.textContent)
+            })
+        </script>
+
+    </body>
+</html>

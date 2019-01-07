@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            template html file
+        </title>
+    </head>
+    <body>
+        <!--
+            <a> </a> = tag / element 
+            href = attribute
+            http://www.google.com = attributes's value
+            visit google - text
+        -->
+        <!-- <a href= "./1-hello-world.html"> hello world script</a>
+        <a href="http://www.google.com">visit google</a>
+        -->
+        <script>
+            const tag = document.createElement('a') // <a> </a>
+            tag.setAttribute('href', 'http://www.google.com')
+            //
+            //
+            tag.textContent = 'visit google'
+            document.body.appendChild(tag)
+        </script>
+    </body>
+</html>
+

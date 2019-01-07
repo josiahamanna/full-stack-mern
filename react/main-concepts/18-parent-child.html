@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>javascript XML</title>
+</head>
+<body>
+	<script src="js/react.js"></script>
+	<script src="js/reactdom.js"></script>
+	<script src="js/babel.js"></script>
+
+	<div id="root">
+		
+	</div>
+
+	<script type="text/babel">
+		const rootHandle = document.getElementById('root');
+        
+        class Parent extends React.Component{
+            constructor(){
+                super()
+                this.localDB = JSON.parse(localStorage.getItem('temp'))
+                console.log(this.localDB)
+                this.state = {
+                    children: ['karan', 'argun']
+                }
+            }
+            hug(name) {
+                console.log(`${name} hugged parent`)
+            }
+            render() {
+                return (
+                    <div>
+                        <h2> Parent Component </h2>
+                        <Child name={this.state.children[0]} city = "banglore" hugMethod={this.hug}/>
+                        <Child name={this.state.children[0]} city = "banglore" hugMethod={this.hug}/>
+                    </div>
+                )
+            }
+        }
+
+        class Child extends React.Component {
+            constructor(){
+                super()
+                this.handleClick = this.handleClick.bind(this)
+            }
+            handleClick(){
+                this.props.hugMethod(this.props.name)
+            }
+            render(){
+                return(
+                    <div>
+                        <h2> Child Component - </h2>
+                        <p> Name: {this.props.name} </p>
+                        <p> City: {this.props.city} </p>
+                        <button onClick={this.handleClick}> Hug Parent </button>
+                    </div>
+                )
+            }
+        }
+        
+		ReactDOM.render(<Parent />,rootHandle);
+	</script>
+
+</body>
+</html>

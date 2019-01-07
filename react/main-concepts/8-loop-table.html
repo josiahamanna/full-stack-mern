@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>javascript XML</title>
+</head>
+<body>
+	<script src="js/react.js"></script>
+	<script src="js/reactdom.js"></script>
+	<script src="js/babel.js"></script>
+
+	<div id="root">
+		
+	</div>
+
+	<script type="text/babel">
+		const rootHandle = document.getElementById('root');
+
+        const socialSites = [
+            {id:1, name: 'facebook', url: 'http://facebook.com'},
+            {id:2, name: 'google', url: 'http://google.com'}
+        ]
+
+        const ele = (
+            <table>
+                <thead>
+                    <tr>
+                        <th> # </th>
+                        <th> Name </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        socialSites.map(function(params) {
+                            return (
+                                <tr key = {params.id}> 
+                                    <td> {params.id} </td> 
+                                    <td> {params.name} </td> 
+                                </tr>
+                            ) 
+                        })
+                    }
+                </tbody>
+            </table>
+        )
+		ReactDOM.render(ele,rootHandle);
+	</script>
+
+</body>
+</html>

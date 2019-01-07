@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>javascript XML</title>
+</head>
+<body>
+	<script src="js/react.js"></script>
+	<script src="js/reactdom.js"></script>
+	<script src="js/babel.js"></script>
+
+	<div id="root">
+		
+	</div>
+
+	<script type="text/babel">
+		const rootHandle = document.getElementById('root');
+        
+        class Counter extends React.Component {
+            constructor() {
+                super()
+                // this.value = 0
+                this.state = {
+                    value: 0
+                }
+                this.handleUp = this.handleUp.bind(this)
+                this.handleDown = this.handleDown.bind(this)
+                this.handleDef = this.handleDef.bind(this)
+            }
+
+            handleUp(){
+                //state must not be updated in the below mentioned way
+                // this.state.value = this.state.value + 1
+            
+                this.setState(function(pervState) {
+                    
+                        return {
+                            
+                            value: pervState.value + 1
+                            }
+                })
+            }
+
+            handleDown(){
+                //state must not be updated in the below mentioned way
+                // this.state.value = this.state.value + 1
+            
+                this.setState(function(pervState) {
+                    if(pervState.value>0){
+                    return {
+                        value: pervState.value - 1
+                    }
+                }
+                })
+            }
+
+            handleDef(){
+                this.setState(function(pervState) {
+                    return {
+                        value: 5
+                    }
+                })
+            }
+
+            render(){
+                console.log('render')
+                return (
+                    <div>
+                        <h2>{this.state.value}</h2>
+                        <p>{this.state.value}</p>
+                        <em>{this.state.value}</em>
+                        <button onClick = {this.handleUp}> Up </button>
+                        <button onClick = {this.handleDown}> Down </button>
+                        <button onClick = {this.handleDef}> Set default </button>
+                    </div>
+                )
+            }
+        }
+        
+        class ShowUpper extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    text: 'sample text'
+                }
+                this.handleCase = this.handleCase.bind(this)
+            }
+            
+            handleCase(){
+                this.setState(function(pervState) {
+                    return {
+                        text: pervState.text.toUpperCase()
+                    }
+                })
+            }
+
+            render(){
+                return (
+                    <div>
+                        <h2> {this.state.text} </h2>
+                        <button onClick = {this.handleCase}> Case change </button>
+                    </div>
+                )
+            }
+        }
+
+        class ShowPass extends React.Component {
+            constructor() {
+                super()
+                this.state = {
+                    pass: 'password'
+                }
+                this.show = this.show.bind(this)
+            }
+            
+            show(){
+                this.setState(function(pervState) {
+                    if(pervState.pass == 'password'){
+                        return {
+                            pass: 'text'
+                        }
+                    } else {
+                        return {
+                            pass: 'password'
+                        }
+                    }
+                })
+            }
+
+            render(){
+                return (
+                    <div>
+                        <input type={this.state.pass}/>
+                        <button onClick = {this.show}> Show password </button>
+                    </div>
+                )
+            }
+        }
+
+        function App(){
+            return(
+                <div>
+                    <Counter />
+                    <ShowUpper />
+                    <ShowPass/>
+                </div>
+            )
+        }
+		ReactDOM.render(<App />,rootHandle);
+	</script>
+
+</body>
+</html>

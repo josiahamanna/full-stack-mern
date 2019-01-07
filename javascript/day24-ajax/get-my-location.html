@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Get my location
+        </title>
+    </head>
+
+    <body>
+
+        <div style="align-content: center; padding-top: 5%">
+            <button id="btn" style = " padding: 1.5%; font-size: 20px; background: MediumBlue"> Get MY location </button><br/>
+            <div style="padding-top:1%">
+                <span id = "myLoc" style="text-align:left; margin-top:20%"></span><br/>
+            </div>
+            <div style="padding-top:1%"></div>
+                <span id = "myTemp"></span>
+            </div>
+            <div style="padding-top:1%">
+                <img id = "myImg">
+            </div>
+        </div>
+        
+
+        <script> 
+            const btnHandle = document.getElementById('btn')
+            const myLocInfo = document.getElementById('myLoc')
+            const showMyTemp = document.getElementById('myTemp')
+            const showMyMap = document.getElementById('myImg')
+
+            btnHandle.addEventListener('click', function(){
+                console.log('get')
+                
+                getLocation()
+
+                function getLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(showPosition)
+                    } else { 
+                            myLocInfo.innerHTML = "Geolocation is not supported by this browser."
+                        }
+                    }
+
+                function showPosition(position) {
+                    myLocInfo.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude
+                    showTemp(position.coords.latitude, position.coords.longitude)
+                }
+
+                
+            })
+
+            function showTemp(lat, lang){
+                const xhr = new XMLHttpRequest()
+                let url = `https://api.darksky.net/forecast/cd3fe130dd459d3c36e0b47549ab467a/${lat},${lang}`
+                xhr.open('GET', url)
+                xhr.send()
+                xhr.onload = function(){
+                    const info = JSON.parse(xhr.responseText).currently.temperature
+                    showMyTemp.innerHTML = `Current temparature is ${info} fahrenheits`
+                }
+                showMap(lat, lang)
+            }
+
+            function showMap(lat, lang){
+                console.log(' you are here ')
+                showMyMap.src = `https://www.mapquestapi.com/staticmap/v5/map?key=XKiqOdqZ1ea4l4plVrqc1HIoM0hajCAC&center=${lat},${lang}&size=@2x`
+            }
+
+        </script>
+
+    </body>
+</html>

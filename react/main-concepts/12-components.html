@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>javascript XML</title>
+</head>
+<body>
+
+	<div id="root">
+	
+	</div>
+
+	<script src="js/react.js"></script>
+	<script src="js/reactdom.js"></script>
+	<script src="js/babel.js"></script>
+
+	
+
+	<script type="text/babel">
+		const rootHandle = document.getElementById('root');
+        
+        // functional component 
+        function Greeting(props) {
+            // jsx - javascript xml
+            const ele = <h2 id = "heading"> Hello {props.name.toUpperCase()} - {props.lastName}</h2>
+            console.log(ele)
+            return ele
+        }
+
+        const lastName = 'sg'
+		ReactDOM.render(<Greeting name= "ani" lastName = {lastName} />, rootHandle);
+	</script>
+
+</body>
+</html>

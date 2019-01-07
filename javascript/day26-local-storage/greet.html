@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            hello world
+        </title>
+    </head>
+    <body>
+        <h2> Hello, <span id = "name"></span></h2>
+        <button onclick = "setName()"> Enter Name </button>
+        <button onclick = "clearName()"> Clear Storage </button>
+
+        <script>
+            const nameHandle = document.getElementById('name')
+
+            let userName;
+
+            function setName(){
+                userName = prompt("Enter you name")
+                // write to local storage
+                localStorage.setItem('name', userName)
+                nameHandle.innerText = localStorage.getItem('name')
+            }
+
+            // read from local storage
+            if(localStorage.getItem('name')){
+                nameHandle.innerText = localStorage.getItem('name')
+            }
+
+            function clearName() {
+                localStorage.removeItem('name')
+                nameHandle.innerText = localStorage.getItem('name')
+            }
+        </script>
+    </body>
+</html>

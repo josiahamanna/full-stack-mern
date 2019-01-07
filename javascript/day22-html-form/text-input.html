@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            template html file
+        </title>
+    </head>
+    
+    <body>
+
+        <form>
+            <label for = "name">name</label>
+            <input type = "text" id = "name" name = "name" /> <br/>
+        </form>
+               
+        <script>
+            const nameHandle = document.getElementById('name')
+
+            nameHandle.addEventListener('focus', function(){
+                console.log('you are inside name input')
+            })
+
+            nameHandle.addEventListener('blur', function(){
+                console.log('you are outside name input')
+                console.log('you have typed', nameHandle.value)
+            })
+
+            // keyboard event
+            nameHandle.addEventListener('keyup', function(){
+                console.log('you are typinng', nameHandle.value)
+            })
+        </script>
+
+    </body>
+</html>

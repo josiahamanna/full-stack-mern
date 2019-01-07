@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            remove button menu list
+        </title>
+    </head>
+    
+    <body>
+               
+        <script>
+
+            const menuItems = [
+                {id: 1, title: 'dosa', isVeg: true},
+                {id: 2, title: 'cofee', isVeg: true},
+                {id: 3, title: 'butter chicken', isVeg: false}, 
+                {id: 4, title: 'chicken biryani', isVeg: false},
+                {id: 5, title: 'panner biryani', isVeg:true}
+            ]
+
+            const ulTag = document.createElement('ul')
+            
+            menuItems.forEach(function(item){
+                let liTag = document.createElement('li')
+                let buttonTag = document.createElement('button')
+
+                buttonTag.textContent = "remove"
+                liTag.textContent = item.title         
+             
+                liTag.appendChild(buttonTag)
+                ulTag.appendChild(liTag)
+
+                console.log(liTag)
+                
+                buttonTag.onclick = (function(li){
+                    return function(){li.remove()}
+                })(liTag)
+
+            })
+
+            document.body.appendChild(ulTag)
+        </script>
+
+    </body>
+</html>
