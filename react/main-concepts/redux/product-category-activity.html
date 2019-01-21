@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Implimentation of redux on user form
+        </title>
+    </head>
+    <body>
+
+        <script src="../js/react.js"></script>
+        <script src="../js/reactdom.js"></script>
+        <script src="../js/babel.js"></script>
+        <script src="../js/redux.js"></script>
+
+    
+        <div id="root">
+            
+        </div>
+
+        <script type="text/babel">
+            const rootHandle = document.getElementById('root')
+
+            const categoryInitialStateDate = [{id:1, name: 'electronic'},{id:2, name: 'clothing'}]
+
+            const categoriesReducer = (state = categoryInitialStateDate, action) => {
+                switch(action.type) {
+                    case 'ADD_CATEGORY':
+                        return [...state, action.category]
+                    case 'REMOVE_CATEGORY':
+                        return state.filter(category=> category.id != action.id)
+                    default: 
+                        return state
+                }
+            }
+
+            const productInitialStateDate = []
+
+            const productsReducer = (state=productInitialStateDate, action) => {
+                switch(action.type) {
+                    case 'ADD_PRODUCT':
+                        return [...state, action.product]
+                    case 'REMOVE_PRODUCT':
+                        return state.filter(product=> product.id != action.id)
+                    default: 
+                        return state
+                }
+            }
+
+            const store = Redux.createStore(Redux.combineReducers({
+                categories: categoriesReducer,
+                products: productsReducer
+            }))
+
+            function addProduct(product) {
+                return {
+                    type: 'ADD_PRODUCT',
+                    product
+                }
+            }
+
+            function removeProduct(id) {
+                return {
+                    type: 'REMOVE_PRODUCT',
+                    id
+                }
+            }
+
+            function addCategory(category) {
+                return {
+                    type: 'ADD_CATEGORY',
+                    category
+                }
+            }
+
+            function removeCategory(id) {
+                return {
+                    type: 'REMOVE_CATEGORY',
+                    id
+                }
+            }
+
+            store.subscribe(()=>{
+                ReactDOM.render(<App />, rootHandle)
+            })
+
+            class App extends React.Component {
+
+                render() {
+                    return(
+                    <div>
+                        <h2> Listing categories </h2>
+                        <CategorySection />
+                        <h2> Listing Products </h2>
+                        <ProductSection />
+                    </div>)
+                }
+            }
+
+            function CategorySection(props) {
+                return(
+                    <div>   
+                        <CategoryTable/>
+                        <CategoryForm/>
+                    </div>
+                )
+            }
+
+            function CategoryTable(props) {
+                return (
+                    <table>
+                        <thead>
+                            <tr> 
+                                <th> # </th>
+                                <th> Name </th>
+                                <th> Action </th>
+                            </tr> 
+                        </thead>
+                        <tbody>
+                            { store.getState().categories.sort((a,b) => a.id - b.id).map(category=>{
+                                    return <CategoryRow 
+                                        key={category.id}
+                                        id={category.id}
+                                        name={category.name}
+                                        />
+                                }) }
+                        </tbody>
+                    </table>
+                )
+            }
+
+            function CategoryRow(props) {
+                return (
+                    <tr>
+                        <td> {props.id} </td>
+                        <td> {props.name} </td>
+                        <td> <button onClick={()=>{
+                            const confirmDelete = confirm("Are you sure")
+                            if(confirmDelete) {
+                                store.dispatch(removeCategory(props.id))
+
+                                if(store.getState().products.find(item=>item.id==props.id)){
+                                    alert('cannot delete')
+                                    store.dispatch(addCategory({id: props.id, name:props.name}))
+                                }                             
+                            }
+                        }}> delete </button> </td>
+                    </tr>
+                )
+            }
+
+            class CategoryForm extends React.Component {
+                constructor(props) {
+                    super(props)
+                    this.state = {
+                        id:'',
+                        name:'',
+                    }
+                    this.handleChange = this.handleChange.bind(this)
+                    this.handleSubmit = this.handleSubmit.bind(this)
+                }
+
+                handleChange(event) {
+                    this.setState({
+                        [event.target.name]: event.target.value
+                    })
+                }
+
+                handleSubmit(event) {
+                    event.preventDefault()
+                    const formData = {
+                        id:this.state.id,
+                        name: this.state.name
+                    }
+
+                    store.dispatch(addCategory(formData))
+
+                    this.setState({
+                        id:'',
+                        name:'',
+                    })
+                }
+
+                render(){
+                    return(
+                        <div>
+                            <h2> Add Category </h2>
+                            <form onSubmit = {this.handleSubmit}>
+                                <label> Category ID 
+                                    <input type="number" name="id" value={this.state.id} onChange={this.handleChange} />
+                                </label> <br/>
+                                <label> Category Name
+                                    <input type="text" name="name" value={this.state.name} onChange={this.handleChange} />
+                                </label> <br/>
+                                <input type="submit" value="submit"/>
+                            </form>
+                        </div>
+                    )
+                }
+            }
+
+            function ProductSection(props) {
+                return(
+                    <div>   
+                        <ProductTable/>
+                        <ProductForm/>
+                    </div>
+                )
+            }
+
+            function ProductTable(props) {
+                return (
+                    <table>
+                        <thead>
+                            <tr> 
+                                <th> # </th>
+                                <th> Name </th>
+                                <th> category </th>
+                                <th> Action </th>
+                            </tr> 
+                        </thead>
+                        <tbody>
+                            { store.getState().products.map(product=>{
+                                    return <ProductRow 
+                                        key={product.id}
+                                        id={product.id}
+                                        name={product.name}
+                                        categoryID={store.getState().categories.find(cat=>cat.id==product.category).name}
+                                        />
+                                }) }
+                        </tbody>
+                    </table>
+                )
+            }
+
+            function ProductRow(props) {
+                return (
+                    <tr>
+                        <td> {props.id} </td>
+                        <td> {props.name} </td>
+                        <td> {props.categoryID} </td>
+                        <td> <button onClick={()=>{
+                            const confirmDelete = confirm("Are you sure?")
+                            if(confirmDelete) {
+                                store.dispatch(removeProduct(props.id))
+                            }
+                        }}> delete </button> </td>
+                    </tr>
+                )
+            }
+
+            class ProductForm extends React.Component {
+                constructor(props) {
+                    super(props)
+                    this.state = {
+                        id:'',
+                        name:'',
+                        category: ''
+                    }
+                    this.handleChange = this.handleChange.bind(this)
+                    this.handleSubmit = this.handleSubmit.bind(this)
+                }
+
+                handleChange(event) {
+                    this.setState({
+                        [event.target.name]: event.target.value
+                    })
+                }
+
+                handleSubmit(event) {
+                    event.preventDefault()
+                    const formData = {
+                        id:this.state.id,
+                        name: this.state.name,
+                        category: parseInt(this.state.category)
+                    }
+                    store.dispatch(addProduct(formData))
+
+                    this.setState({
+                        id:'',
+                        name:'',
+                        category: ''
+                    })
+                }
+
+                render(){
+                    console.log(store.getState().categories)
+                    return(
+                        <div>
+                            <h2> Add Product </h2>
+                            <form onSubmit = {this.handleSubmit}>
+                                <label> Product ID
+                                    <input type="number" name="id" value={this.state.id} onChange={this.handleChange} />
+                                </label> <br/>
+                                <label> Product Name
+                                    <input type="text" name="name" value={this.state.name} onChange={this.handleChange} />
+                                </label> <br/>
+                                <label> Category
+                                    <select name="category" value={this.state.category} onChange={this.handleChange}>
+                                        <option> select </option>
+                                        {
+                                        store.getState().categories.map(cat=><option value={cat.id}>{cat.name}</option>)
+                                        }
+                                    </select>
+                                </label> <br/>
+                                <input type="submit" value="submit"/>
+                            </form>
+                        </div>
+                    )
+                }
+            }
+
+            ReactDOM.render(<App/>,rootHandle)
+
+        </script>
+    </body>
+</html>
